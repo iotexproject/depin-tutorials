@@ -5,5 +5,6 @@ cmake_minimum_required(VERSION 3.16)
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
 
 add_compile_options(-fdiagnostics-color=always -w)
+add_compile_definitions(IOTEX_PAL_DEVICE_REGISTER_MODE=1)
 
 project(wifi_station)
