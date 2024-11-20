@@ -1,0 +1,16 @@
+dependencies:
+  core:
+    dependencies: []
+    source:
+      path: /Users/simone/Source/GitHub/simonerom/ioConnect/core
+      type: local
+    version: '*'
+  idf:
+    source:
+      type: idf
+    version: 5.2.2
+direct_dependencies:
+- core
+manifest_hash: ee103be7c58548705729dbcbe40e41bdda47d79433999598849bc1cbda3d98a7
+target: esp32
+version: 2.0.0
