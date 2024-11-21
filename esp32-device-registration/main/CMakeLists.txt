@@ -10,7 +10,6 @@ set(PAL_SRC ${PAL_SPROUT_SOURCES} ${PAL_DEVICE_REGISTER_SOURCES})
 
 list(APPEND requires esp_http_server)
 
-
 idf_component_register(SRCS "did_module.c" "wifi_module.c" "utils.c" "main.c" "tcp_client_v4.c" ${PAL_SRC}
                     INCLUDE_DIRS "." ${PAL_HEAD_PATH}
                     EMBED_TXTFILES "certs/servercert.pem" "certs/prvtkey.pem")
