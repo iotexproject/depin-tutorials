@@ -7,8 +7,9 @@
 ```sh
 idf.py menuconfig
 ```
-- Set the wifi credentials in `Example Configuration` 
-- Enable **Esp HTTPS Server** component in `Component Config->ESP HTTPS Server`
-- Enable **Allow Potentialli insecure Options** in `Component Config->ESP-TLS`
-  
+- In `Example Configuration` Set the wifi credentials 
+- In `Component Config->ESP HTTPS Server` Enable **Esp HTTPS Server** component 
+- In `Component Config->ESP-TLS` Enable **Allow Potentially insecure Options** and **Skip server certificate verification**
+- In `Component Config → ESP System Settings` Set ensure **Main Task Stack Size** is high enough, e.g. `8192`    
+
 Please see the tutorial at: https://docs.iotex.io/builders/depin/ioid-step-by-step-tutorial/a-fully-decentralized-approach
