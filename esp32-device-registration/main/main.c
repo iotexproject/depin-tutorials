@@ -2,6 +2,7 @@
 #include "nvs_flash.h"     
 #include "wifi_module.h"
 #include "did_module.h" 
+#include "psa/crypto_types.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "utils.h"
@@ -22,6 +23,29 @@ void app_main(void)
     const char *stored_did = did_get();
     // char *test_did = "did:io:0x2e0f48b35635a40f55ae89ef635ca3c4c1ac0f96";
     ESP_LOGI(TAG, "Device DID: %s", stored_did);
+    /*
+    psa_status_t psa_export_key(psa_key_id_t key,
+                            uint8_t *data,
+                            size_t data_size,
+                            size_t *data_length);
+
+    */
+    // let's log the private key
+    psa_status_t status;
+    uint8_t key_data[512];
+    size_t key_data_length;
+    status = psa_export_key(1, key_data, sizeof(key_data), &key_data_length);
+
+    if (status == 0) {
+        printf("Key exported successfully.\n");
+        printf("Key data (hex): ");
+        for (size_t i = 0; i < key_data_length; i++) {
+            printf("%02X", key_data[i]);
+        }
+        printf("\n");
+    } else {
+        printf("Key export failed with status %d\n", status);
+    }
 
     // Extract the address from the DID
     const char *device_address = stored_did + 7; // Skip "did:io:"
@@ -37,6 +61,8 @@ void app_main(void)
         }
     } else {
         ESP_LOGI(TAG, "Device already registered.");
+        ESP_LOGI(TAG, "I'll destroy the key to generate a new DID....");
+        did_destroy_key();
     }
 }
 // Initialize the NVS (Non-Volatile Storage) module

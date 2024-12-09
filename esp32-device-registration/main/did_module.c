@@ -11,17 +11,20 @@ static char *myDID = NULL;
 static char *myDIDDoc = NULL;
 
 static char *TAG = "did_module";
+unsigned int key_id = 1;
 
 // Generate a DID and a DID Document
 void did_generate(void) {
     ESP_LOGI(TAG, "Generating DID and DID Document...");
     
     // Initialize the DeviceConnect SDK
-    default_SetSeed(esp_random());
+    int seed = esp_random();
+    ESP_LOGI(TAG, "Seed: %d", seed);    
+
+    default_SetSeed(seed);
     iotex_deviceconnect_sdk_core_init(NULL, NULL, NULL);
 
      // Step 1: Generate the JWK for the device
-    unsigned int key_id = 1;
 
     JWK *signjwk = iotex_jwk_generate(JWKTYPE_EC, JWK_SUPPORT_KEY_ALG_K256,
                                       IOTEX_JWK_LIFETIME_PERSISTENT,
@@ -116,4 +119,9 @@ char *did_doc_get(void)
         return NULL;
     }
     return myDIDDoc;
+}
+
+void did_destroy_key()
+{
+   psa_destroy_key(key_id);
 }

@@ -18,8 +18,8 @@ bool is_device_registered(const char *device_address) {
     esp_http_client_config_t config = {
         .url = ETH_RPC_URL, // Replace with your actual URL
         .method = HTTP_METHOD_POST,
-        .buffer_size = 1024,
-        .buffer_size_tx = 2048,
+        .buffer_size = 512,
+        .buffer_size_tx = 512,
     };
 
     esp_http_client_handle_t client = esp_http_client_init(&config);
@@ -37,7 +37,7 @@ bool is_device_registered(const char *device_address) {
              &device_address[2]); // Remove "0x" prefix from device_address
 
     ESP_LOGI(TAG, "Payload: %s", payload);
-
+    ESP_LOGI(TAG, "Endpoint: %s", ETH_RPC_URL);
     // Open the HTTP connection
     esp_err_t err = esp_http_client_open(client, strlen(payload));
     if (err != ESP_OK) {
@@ -45,7 +45,7 @@ bool is_device_registered(const char *device_address) {
         esp_http_client_cleanup(client);
         return false;
     }
-
+    ESP_LOGI(TAG, "HTTP Connection OK");
     // Write the request payload
     int wlen = esp_http_client_write(client, payload, strlen(payload));
     if (wlen < 0) {
